@@ -1,1 +1,2 @@
-console.log('Hello')
+const bot = require('./bot');
+bot.service();
