@@ -29,14 +29,11 @@ exports.service = () => {
         const { chat, text } = message;
 
         const passwordLenght = getPasswordLenght(text);
-        const responseText = buildResponseMessage(generatePassword(passwordLenght, false, /\w/));
+        const generatedPassword = generatePassword(passwordLenght, false, /\w/);
 
-        sendMarkdownMessage(bot, chat.id, responseText)
+        sendMarkdownMessage(bot, chat.id, "**Your password is:**")
+        sendMarkdownMessage(bot, chat.id, '`' + generatedPassword + '`')
     });
-
-    const buildResponseMessage = (password) => {
-        return "Your password is: `" + password + "`.";
-    };
 
     const getPasswordLenght = (text) => {
         if (!isNaN(text)) {
