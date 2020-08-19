@@ -25,7 +25,11 @@ exports.service = () => {
     bot.on('message', ({chat, text}) => {
         const chatId = chat.id;
         // send a message to the chat acknowledging receipt of their message
-        const passwordLenght = isNaN(text) ? 10 : parseInt(text);
-        bot.sendMessage(chatId, passwordGenerator.generate(passwordLenght, false, /\w/));
+        const passwordLenght = isNaN(text) && text.length > 6 ? 10 : parseInt(text);
+        bot.sendMessage(chatId, getResponseMessage(passwordGenerator.generate(passwordLenght, false, /\w/)));
     });
+
+    const getResponseMessage = (password) => {
+        return "Your password is: `" + password + "`."
+    }
 };
