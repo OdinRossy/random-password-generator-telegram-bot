@@ -1,9 +1,13 @@
+// https://github.com/yagop/node-telegram-bot-api
 const TelegramBot = require('node-telegram-bot-api');
-const passwordGenerator = require('./password-generator');
+// https://github.com/bermi/password-generator
+const generatePassword = require('password-generator');
+
 const { token } = require('./config');
 
 exports.service = () => {
     console.debug('Bot started..');
+
     // Create a bot that uses 'polling' to fetch new updates
     const bot = new TelegramBot(token, { polling: true });
 
@@ -20,23 +24,19 @@ exports.service = () => {
         bot.sendMessage(chatId, resp);
     });
 
-    // Listen for any kind of message. There are different kinds of
-    // messages.
+    // Listen for any kind of message. There are different kinds of messages.
     bot.on('message', (message) => {
         const { chat, text } = message;
-        const chatId = chat.id;
 
         const passwordLenght = getPasswordLenght(text);
+        const responseText = buildResponseMessage(generatePassword(passwordLenght, false, /\w/));
 
-        // send a message to the chat acknowledging receipt of their message
-        bot.sendMessage(chatId,
-            buildResponseMessage(passwordGenerator.generate(passwordLenght, false, /\w/)),
-            { parse_mode: 'markdown' });
+        sendMarkdownMessage(bot, chat.id, responseText)
     });
 
     const buildResponseMessage = (password) => {
         return "Your password is: `" + password + "`.";
-    }
+    };
 
     const getPasswordLenght = (text) => {
         if (!isNaN(text)) {
@@ -47,5 +47,9 @@ exports.service = () => {
         }
 
         return 10;
-    }
+    };
+
+    const sendMarkdownMessage = (bot, chatId, text) => {
+        bot.sendMessage(chatId, text, { parse_mode: 'markdown' });
+    };
 };
