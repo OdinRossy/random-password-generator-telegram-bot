@@ -1,1 +1,1 @@
-exports.token = '';
+exports.token = process.env.tg_token;
