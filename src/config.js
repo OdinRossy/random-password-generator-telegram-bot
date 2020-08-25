@@ -1,5 +1,5 @@
 const getBotToken = () => {
-    return '';
+    return process.env.bot_token || '';
 };
 
 export { getBotToken };
