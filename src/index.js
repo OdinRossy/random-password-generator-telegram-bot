@@ -1,5 +1,5 @@
 import https from 'https';
-import { service } from './bot.js';
+import bot from './bot.js';
 
 https.createServer()
     .listen(process.env.PORT || 5000)
@@ -7,4 +7,4 @@ https.createServer()
         res.end('');
     });
 
-service();
+bot.service();

@@ -51,4 +51,4 @@ const service = () => {
     };
 };
 
-export { service };
+export default { service };
