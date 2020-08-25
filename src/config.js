@@ -1,1 +1,5 @@
-exports.token = process.env.tg_token;
+const getBotToken = () => {
+    return '';
+};
+
+export { getBotToken };
